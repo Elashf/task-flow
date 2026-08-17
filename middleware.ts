@@ -10,12 +10,10 @@ export function middleware(request: NextRequest) {
     pathname.startsWith("/login") ||
     pathname.startsWith("/register");
 
-  // اگر لاگین نیست و می‌خواهد وارد داشبورد شود
   if (!token && isDashboard) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // اگر لاگین است و می‌خواهد دوباره وارد صفحات auth شود
   if (token && isAuthPage) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
