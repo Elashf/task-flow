@@ -10,12 +10,14 @@ import { getCurrentUser } from "@/lib/auth";
 import ButtonDetailCard from "../card/ButtonDetailCard";
 
 type TaskDetailsDialogProps = {
+  id:string,
   title: string;
   description: string | null;
   priority:Priority
 };
 
 async function TaskDetailsDialog({
+  id,
   title,
   description,
   priority,
@@ -27,7 +29,7 @@ async function TaskDetailsDialog({
   } as const;
 
   const user = await getCurrentUser()
-
+ 
 
   return (
     <DialogContent className="
@@ -103,7 +105,7 @@ async function TaskDetailsDialog({
   </p>
 
 </div>
-<ButtonDetailCard />
+<ButtonDetailCard id={id} title={title} description={description} priority={priority}/>
 </div>
     </DialogContent>
   );
