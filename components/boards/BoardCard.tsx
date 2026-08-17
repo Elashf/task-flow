@@ -9,12 +9,13 @@ import { getCurrentUser } from "@/lib/auth";
 
 
 type BoardCardProps = {
+  id:string,
   title: string;
   description: string | null;
   priority: Priority
 };
 
-async function BoardCard({ title, description, priority }: BoardCardProps) {
+async function BoardCard({id, title, description, priority }: BoardCardProps) {
   const priorityVariant = {
     low: "secondary",
     medium: "default",
@@ -70,7 +71,7 @@ async function BoardCard({ title, description, priority }: BoardCardProps) {
     </article>
       </DialogTrigger>
       
-    <TaskDetailsDialog title={title} description={description} priority={priority}/>
+    <TaskDetailsDialog id={id} title={title} description={description} priority={priority}/>
    
 </Dialog>
   );

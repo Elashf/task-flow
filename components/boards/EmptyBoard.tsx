@@ -1,7 +1,8 @@
+
 import { ClipboardList } from "lucide-react";
-import { Button } from "../ui/button";
 
 function EmptyBoard() {
+  
   return (
     <div className="flex flex-col items-center justify-center rounded-xl border border-dashed py-12 text-center">
       <ClipboardList className="mb-4 size-12 text-muted-foreground" />
@@ -14,9 +15,7 @@ function EmptyBoard() {
         Create your first task to start organizing your work.
       </p>
 
-      <Button className="mt-6">
-        + Add Task
-      </Button>
+    
     </div>
   );
 }
