@@ -9,8 +9,7 @@ TaskFlow allows users to organize their work through **Boards, Lists, and Cards*
 * 🔐 Authentication & protected routes
 * 📋 Create and manage Boards, Lists & Cards
 * ✏️ CRUD operations
-* 🔎 Search and filtering
-* 👤 User & role-based access
+* 🔎 Search 
 * 📊 Dashboard interface
 * 📱 Responsive design
 * 🌓 Modern UI with Tailwind CSS & shadcn/ui
