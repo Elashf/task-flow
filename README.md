@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TaskFlow
 
-## Getting Started
+A modern full-stack task management application inspired by productivity tools like Trello.
 
-First, run the development server:
+TaskFlow allows users to organize their work through **Boards, Lists, and Cards** with a clean and responsive dashboard interface.
+
+## ✨ Features
+
+* 🔐 Authentication & protected routes
+* 📋 Create and manage Boards, Lists & Cards
+* ✏️ CRUD operations
+* 🔎 Search 
+* 📊 Dashboard interface
+* 📱 Responsive design
+* 🌓 Modern UI with Tailwind CSS & shadcn/ui
+* 🗄️ PostgreSQL database with Prisma ORM
+
+## 🛠️ Tech Stack
+
+* **Next.js** — App Router
+* **TypeScript**
+* **Prisma ORM**
+* **PostgreSQL / Neon**
+* **Tailwind CSS**
+* **shadcn/ui**
+* **Lucide React**
+
+## 📁 Project Structure
+
+```text
+src/
+├── app/
+│   ├── api/
+│   ├── dashboard/
+│   └── ...
+├── components/
+├── lib/
+├── generated/
+└── ...
+```
+
+## ⚙️ Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Elashf/TaskFlow.git
+cd TaskFlow
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file:
+
+```env
+DATABASE_URL="your_database_url"
+JWT_SECRET="your_jwt_secret"
+```
+
+### 4. Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+### 5. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎯 Purpose
 
-## Learn More
+TaskFlow was built to practice and demonstrate modern **Next.js full-stack development**, including database integration, authentication, CRUD operations, reusable components, and responsive UI design.
 
-To learn more about Next.js, take a look at the following resources:
+## 👩‍💻 Author
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Elahe Farahani**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+GitHub: https://github.com/Elashf
