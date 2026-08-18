@@ -9,7 +9,6 @@ export default function HomePage() {
     <main>
       <section className="container mx-auto px-6 py-24">
         <div className="grid items-center gap-16 lg:grid-cols-2">
-          {/* Left */}
           <div>
             <Badge className="mb-6">
               ✨ Modern Kanban App
@@ -45,13 +44,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border bg-card p-6 shadow-xl">
-            <div className="aspect-video rounded-xl border bg-muted flex items-center justify-center">
-              <p className="text-muted-foreground">
-                Dashboard Preview
-              </p>
-            </div>
-          </div>
+         
         </div>
       </section>
 

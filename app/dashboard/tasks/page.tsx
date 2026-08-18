@@ -1,29 +1,44 @@
 import BoardCard from "@/components/boards/BoardCard";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { getCurrentUser } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
-const tasks = [
-  {
-    id: 1,
-    title: "Design Dashboard",
-    description: "Create responsive dashboard layout",
-    priority: "high" as const,
-  },
-  {
-    id: 2,
-    title: "Fix Login",
-    description: "Resolve JWT authentication issue",
-    priority: "medium" as const,
-  },
-  {
-    id: 3,
-    title: "Deploy Project",
-    description: "Deploy TaskFlow to Vercel",
-    priority: "low" as const,
-  },
-];
+type Props={
+  searchParams: Promise<{
+search? :string
+  }>
+}
 
-export default function TasksPage() {
+export default async function TasksPage({searchParams}:Props) {
+  const user = await getCurrentUser()
+  const {search}= await searchParams
+  if (!user) {
+  return <div>Unauthorized</div>;
+}
+  const tasks = await prisma.card.findMany({
+    where:{
+    list:{
+      board:{
+        ownerId:user.userId
+      }
+    },
+    ...(search
+      ?{
+        OR:[
+          {title :{
+            contains:search,
+            mode: "insensitive"
+          }},
+          {
+          description:{
+            contains : search,
+            mode:"insensitive"
+          }}
+        ]
+      }
+      :{}
+    )
+    }
+  })
   return (
     <main className="space-y-8 p-6">
       <div>
@@ -31,11 +46,6 @@ export default function TasksPage() {
         <p className="mt-2 text-muted-foreground">
           View and manage all your tasks.
         </p>
-      </div>
-
-      <div className="relative max-w-sm">
-        <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input className="pl-10" placeholder="Search tasks..." />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

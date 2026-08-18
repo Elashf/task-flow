@@ -12,7 +12,7 @@ export async function DELETE(request: Request, { params}:Props ) {
       return NextResponse.json({ message: "Unathorized" }, { status: 401 });
     }
 
-    const card = prisma.card.findFirst({
+    const card =await prisma.card.findFirst({
         where:{
             id:cardId,
             list:{

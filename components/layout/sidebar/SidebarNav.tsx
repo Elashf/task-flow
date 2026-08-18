@@ -1,5 +1,5 @@
 "use client"
-import { FolderKanban, House, SquareCheckBig, Star } from 'lucide-react'
+import { FolderKanban, House, SquareCheckBig } from 'lucide-react'
 import SidebarItem from './SidebarItem'
 
 
@@ -20,11 +20,7 @@ import SidebarItem from './SidebarItem'
     href: "/dashboard/tasks",
     icon: SquareCheckBig,
     },
-    {
-      title: "Favorites",
-    href: "/dashboard/favorite",
-    icon: Star,
-    },
+   
   ]
 function SidebarNav() {
 

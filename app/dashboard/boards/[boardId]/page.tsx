@@ -5,11 +5,15 @@ import { prisma } from "@/lib/prisma";
 type Props={
   params: Promise<{
 boardId:string
+  }>;
+  searchParams: Promise<{
+    search?: string
   }>
 }
 
-export default async function BoardPage({params}:Props) {
+export default async function BoardPage({params , searchParams}:Props) {
   const {boardId} = await params
+  const {search} =await searchParams
   const user = await getCurrentUser()
   if (!user) {
     return <div>Unauthorized</div>;
@@ -22,11 +26,31 @@ export default async function BoardPage({params}:Props) {
     include:{
       lists:{
         include:{
-          cards:true
+          cards:{
+            where:
+              search ? {
+              OR:[
+                {
+                  title:{
+                    contains: search,
+                    mode: "insensitive"
+                  }
+                },
+                {
+                  description:{
+                    contains: search,
+                    mode:"insensitive"
+                  }
+                }
+              ],
+              }
+             :undefined
+            }
+          }
         }
       }
     }
-  }) 
+  ) 
  
 
 if (!board) {
