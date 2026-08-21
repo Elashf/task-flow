@@ -6,6 +6,7 @@ import { Dialog, DialogTrigger } from "../ui/dialog";
 import TaskDetailsDialog from "./TaskDetailsDialog";
 import { Priority } from "@/src/generated/prisma/enums";
 import { getCurrentUser } from "@/lib/auth";
+import DraggableCard from "./DraggableCard";
 
 
 type BoardCardProps = {
@@ -24,11 +25,13 @@ async function BoardCard({id, title, description, priority }: BoardCardProps) {
 
   const user = await getCurrentUser()
   return (
+    <DraggableCard id={id}>
     <Dialog>
     
       <DialogTrigger >
         
         <article
+       
       className="
       min-h-52
     rounded-xl
@@ -69,11 +72,13 @@ async function BoardCard({id, title, description, priority }: BoardCardProps) {
 </div>
       
     </article>
+    
       </DialogTrigger>
       
     <TaskDetailsDialog id={id} title={title} description={description} priority={priority}/>
    
 </Dialog>
+</DraggableCard>
   );
 }
 export default BoardCard;

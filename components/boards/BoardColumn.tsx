@@ -4,6 +4,7 @@ import { Priority } from "@/src/generated/prisma/enums";
 import AddCard from "./AddCard";
 import BoardCard from "./BoardCard";
 import EmptyBoard from "./EmptyBoard";
+import DroppableColumn from "./DroppableColumn";
 
 
 type Props = {
@@ -28,7 +29,7 @@ function BoardColumn({ list }: Props) {
         <h2 className="font-semibold">{list.title}</h2>
         <p className="text-sm text-muted-foreground">{tasks.length}</p>
       </div>
-
+<DroppableColumn id={list.id}>
       <div className="p-3">
         <div className="p-3 space-y-3">
           {tasks.length === 0 ? (
@@ -42,6 +43,7 @@ function BoardColumn({ list }: Props) {
           <AddCard listId={list.id}/>
         </div>
       </div>
+      </DroppableColumn>
     </div>
   );
 }

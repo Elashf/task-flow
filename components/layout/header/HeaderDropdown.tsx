@@ -8,9 +8,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import HeaderAvatar from "./HeaderAvatar";
 import HeaderUserInfo from "./HeaderDropdown/HeaderUserInfo";
+import { getCurrentUser } from "@/lib/auth";
 
 
-function HeaderDropdown() {
+async function HeaderDropdown() {
+  const user= await getCurrentUser()
+  if(!user) return null
   return (
     <div>
       <DropdownMenu>
@@ -20,7 +23,7 @@ function HeaderDropdown() {
         <DropdownMenuContent>
             <DropdownMenuGroup>
             <DropdownMenuLabel>
-               <HeaderUserInfo/>
+               <HeaderUserInfo name={user.name} email={user.email}/>
             </DropdownMenuLabel>
             </DropdownMenuGroup>
             <DropdownMenuSeparator/>

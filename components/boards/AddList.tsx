@@ -38,6 +38,7 @@ type Props={
         setOpen(false)
         setLoading(false)
         router.refresh()
+        setTitle("")
     }
   }
   return (

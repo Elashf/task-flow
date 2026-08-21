@@ -103,7 +103,7 @@ function AddCard({ listId }: Props) {
                 </SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={addToCard}>
+          <Button className="cursor-pointer" onClick={addToCard}>
             {loading ? "Craeting... " : "Add To card"}
           </Button>
         </DialogContent>

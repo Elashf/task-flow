@@ -21,7 +21,7 @@ try {
     if(!verifyPassword){
          return Response.json({message:"Email or password is invalid"},{status:404})
     }
-    const token = JWT.sign({email:existUser.email , userId:existUser.id } , process.env.JWT_SECRET! ,{
+    const token = JWT.sign({email:existUser.email , userId:existUser.id ,name:existUser.name} , process.env.JWT_SECRET! ,{
         expiresIn:"7d"
     })
 
