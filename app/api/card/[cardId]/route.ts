@@ -98,6 +98,22 @@ export async function PATCH(request: Request, { params }: Props) {
         { status: 401 }
       );
     }
+    const targetList = await prisma.list.findFirst({
+  where: {
+    id: listId,
+    board: {
+      ownerId: user.userId,
+    },
+  },
+});
+
+if (!targetList) {
+  return NextResponse.json(
+    { message: "Target list not found" },
+    { status: 404 }
+  );
+}
+
     const card = await prisma.card.findFirst({
       where:{
         id:cardId,
