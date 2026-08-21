@@ -14,6 +14,7 @@ TaskFlow allows users to organize their work through **Boards, Lists, and Cards*
 * 📱 Responsive design
 * 🌓 Modern UI with Tailwind CSS & shadcn/ui
 * 🗄️ PostgreSQL database with Prisma ORM
+*  🔄 Drag & Drop
 
 ## 🛠️ Tech Stack
 
