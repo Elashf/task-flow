@@ -58,6 +58,9 @@ const [loading, setLoading] = useState(false);
     router.refresh()
             setLoading(false)
 
+ }else{
+   const data = await res.json();
+  toast.error(data.message || "Something went wrong");
  }
     }
  
