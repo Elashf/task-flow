@@ -31,7 +31,7 @@ function BoardColumn({ list }: Props) {
       </div>
 <DroppableColumn id={list.id}>
       <div className="p-3">
-        <div className="p-3 space-y-3">
+        <div className="p-3 space-y-3 flex flex-col items-center">
           {tasks.length === 0 ? (
             <EmptyBoard />
           ) : (

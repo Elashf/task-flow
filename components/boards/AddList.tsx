@@ -39,6 +39,8 @@ type Props={
         setLoading(false)
         router.refresh()
         setTitle("")
+    }else{
+      toast.error("Something went wrong, try again")
     }
   }
   return (

@@ -39,6 +39,8 @@ const [loading, setLoading] = useState(false);
         router.refresh()
                 setLoading(false)
 
+      }else{
+        toast.error("Something went wrong")
       }
     }
 

@@ -28,7 +28,9 @@ e.preventDefault()
       if(res.ok){
         toast.success("card moved successfully")
         router.refresh()
-      }
+      }else{
+      toast.error("Something went wrong, try again")
+    }
     }
 
   return (

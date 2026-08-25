@@ -49,6 +49,30 @@ export default async function DashboardPage({ searchParams }: Props) {
       ownerId: user.userId,
     },
   });
+
+  const completedTask = await prisma.card.count({
+    where:{
+      list:{
+        board:{
+          ownerId: user.userId
+        },
+        title: "Done"
+      }
+    }
+  })
+
+
+  const inProgressTasks= await prisma.card.count({
+    where:{
+      list:{
+        board:{
+          ownerId:user.userId
+        },
+        title:"Doing"
+      }
+    }
+  })
+
   return (
     <main className="p-8 space-y-10">
       <div className="flex items-center justify-between">
@@ -63,7 +87,7 @@ export default async function DashboardPage({ searchParams }: Props) {
         <AddBord />
       </div>
 
-      <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         <Card>
           <CardContent className="p-6">
             <FolderKanban className="mb-4 text-primary" />
@@ -75,7 +99,7 @@ export default async function DashboardPage({ searchParams }: Props) {
         <Card>
           <CardContent className="p-6">
             <CheckCircle2 className="mb-4 text-green-600" />
-            <p className="text-3xl font-bold">18</p>
+            <p className="text-3xl font-bold">{completedTask}</p>
             <p className="text-muted-foreground">Completed Tasks</p>
           </CardContent>
         </Card>
@@ -83,18 +107,12 @@ export default async function DashboardPage({ searchParams }: Props) {
         <Card>
           <CardContent className="p-6">
             <Clock3 className="mb-4 text-orange-500" />
-            <p className="text-3xl font-bold">5</p>
+            <p className="text-3xl font-bold">{inProgressTasks}</p>
             <p className="text-muted-foreground">In Progress</p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <Clock3 className="mb-4 text-red-500" />
-            <p className="text-3xl font-bold">2</p>
-            <p className="text-muted-foreground">Overdue</p>
-          </CardContent>
-        </Card>
+        
       </section>
 
       <div className="grid gap-8 lg:grid-cols-3">

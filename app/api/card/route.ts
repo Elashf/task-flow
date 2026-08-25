@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     }
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 400 });
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     const list = await prisma.list.findFirst({

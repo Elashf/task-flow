@@ -34,6 +34,8 @@ function ButtonDetailCard({ id, title, description, priority }: Props) {
       toast.success("Deleted");
       router.refresh();
       setLoading(false)
+    }else{
+      toast.error("Something went wrong, try again")
     }
   };
 
@@ -44,7 +46,7 @@ function ButtonDetailCard({ id, title, description, priority }: Props) {
       headers:{
         "Content-Type" : "application/json"
       },
-      body:JSON.stringify({title:editTitle, discription:editDescription ,priority: editPriority})
+      body:JSON.stringify({title:editTitle, description:editDescription ,priority: editPriority})
   })
     if (res.ok) {
     toast.success("Updated");
@@ -52,9 +54,9 @@ function ButtonDetailCard({ id, title, description, priority }: Props) {
     setOpen(false);
 
     router.refresh();
-  } else {
-    toast.error("Update failed");
-  }
+  } else{
+      toast.error("Something went wrong, try again")
+    }
 
   setLoading(false);
   }

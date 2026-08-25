@@ -36,12 +36,15 @@ function AddCard({ listId }: Props) {
       body: JSON.stringify({ title, description, priority, listId }),
     });
     if (res.ok) {
-      toast.success("List created");
+      toast.success("card created");
       setOpen(false);
       setLoading(false);
       router.refresh();
       setTitle("");
       setDescription("");
+    }else{
+      toast.error("Something went wrong ,try again")
+      router.refresh();
     }
   };
   return (

@@ -1,5 +1,16 @@
+import { Priority } from "@/src/generated/prisma/enums";
 import AddList from "./AddList";
 import BoardColumn from "./BoardColumn";
+
+type Card = {
+  id: string;
+  title: string;
+  description: string | null;
+  listId: string;
+  priority: Priority;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 type Props ={
    board: {
@@ -8,7 +19,7 @@ type Props ={
     lists: {
       id: string;
       title: string;
-      cards: any[];
+      cards: Card[];
     }[];
   };
   

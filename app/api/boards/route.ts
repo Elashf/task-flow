@@ -14,7 +14,6 @@ try {
     if(!title.trim()){
         return NextResponse.json({message:"Empty fields!"},{status:400})
     }
-    console.log(user);
 const board =await prisma.board.create({
     data:{
         title , description , 

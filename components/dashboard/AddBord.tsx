@@ -28,8 +28,8 @@ function AddBord() {
           setLoading(false)
           router.refresh()
         }else{
-          toast.warning("Try again")
-        }
+      toast.error("Something went wrong, try again")
+    }
     }
 
   return (
