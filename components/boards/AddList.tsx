@@ -26,22 +26,29 @@ type Props={
 
   const addToList = async()=>{
     setLoading(true)
-    const res = await fetch("/api/lists" ,{
+    try {
+       const res = await fetch("/api/lists" ,{
         method:"POST",
         headers:{
             "Content-Type" :"application/json"
         },
         body: JSON.stringify({title , boardId})
     })
-    if(res.ok){
-        toast.success("List created")
+        const data = await res.json();
+      if(!res.ok){
+        toast.error(data.message || "failed to create list")
+      }
+      toast.success("List created")
         setOpen(false)
         setLoading(false)
         router.refresh()
         setTitle("")
-    }else{
+    } catch (error) {
       toast.error("Something went wrong, try again")
+    }finally{
+      setLoading(false)
     }
+   
   }
   return (
     <div>

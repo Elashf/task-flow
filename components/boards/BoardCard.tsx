@@ -13,10 +13,11 @@ type BoardCardProps = {
   id:string,
   title: string;
   description: string | null;
-  priority: Priority
+  priority: Priority,
+  createdAt : Date
 };
 
-async function BoardCard({id, title, description, priority }: BoardCardProps) {
+async function BoardCard({id, title, description, priority , createdAt }: BoardCardProps) {
   const priorityVariant = {
     low: "secondary",
     medium: "default",
@@ -62,7 +63,7 @@ async function BoardCard({id, title, description, priority }: BoardCardProps) {
 <div className="mt-5 flex gap-2 items-center justify-between">
   <div className="flex items-center gap-1 text-xs text-muted-foreground">
     <Calendar className="size-4" />
-    <span>{new Date().toLocaleDateString()}</span>
+    <span>{createdAt.toLocaleDateString()}</span>
   </div>
 
   <Avatar className="size-7">

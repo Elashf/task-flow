@@ -26,27 +26,39 @@ function AddCard({ listId }: Props) {
   const router = useRouter();
 
   const addToCard = async () => {
+    if (!title.trim()) {
+  toast.error("Title is required");
+  return;
+}
     setLoading(true);
-    
-    const res = await fetch("/api/card", {
+    try {
+       const res = await fetch("/api/card", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ title, description, priority, listId }),
-    });
-    if (res.ok) {
+    })
+    const data = await res.json();
+     if (!res.ok) {toast.error(data.message || "Failed to create card");
+  return;}
+ 
       toast.success("card created");
       setOpen(false);
-      setLoading(false);
       router.refresh();
       setTitle("");
       setDescription("");
-    }else{
-      toast.error("Something went wrong ,try again")
-      router.refresh();
+    } catch {
+       toast.error("Something went wrong ,try again")
+    }finally{
+            setLoading(false);
+
     }
-  };
+  }
+   
+    
+     
+  
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -107,7 +119,7 @@ function AddCard({ listId }: Props) {
             </SelectContent>
           </Select>
           <Button className="cursor-pointer" onClick={addToCard}>
-            {loading ? "Craeting... " : "Add To card"}
+            {loading ? "Creating... " : "Add To card"}
           </Button>
         </DialogContent>
       </Dialog>

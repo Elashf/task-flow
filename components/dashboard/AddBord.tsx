@@ -15,6 +15,7 @@ function AddBord() {
     const router = useRouter()
     const addBoard = async()=>{
       setLoading(true)
+      try {
         const res = await fetch("/api/boards",{
             method:"POST",
             headers:{
@@ -22,14 +23,21 @@ function AddBord() {
             },
             body: JSON.stringify({title, description})
         })
-        if(res.ok){
-          toast.success("Board created")
+            const data = await res.json();
+           if(!res.ok){
+                    toast.error(data.message || "failed to create board")
+
+           }
+            toast.success("Board created")
           setOpen(false)
           setLoading(false)
           router.refresh()
-        }else{
-      toast.error("Something went wrong, try again")
-    }
+      } catch {
+        toast.error("Something went wrong, try again")
+      }finally{
+        setLoading(false)
+      }
+      
     }
 
   return (

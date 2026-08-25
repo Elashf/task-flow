@@ -30,7 +30,7 @@ try {
 } catch (error) {
     console.log(error);
     
-     return NextResponse.json({message:error},{status:500})
+     return NextResponse.json({message:"Server error"},{status:500})
 }
     
 }
@@ -69,7 +69,7 @@ try {
 } catch (error) {
      console.log(error);
     
-     return NextResponse.json({message:error},{status:500})
+     return NextResponse.json({message:"Server error"},{status:500})
 }
     
     

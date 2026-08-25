@@ -38,7 +38,7 @@ export async function DELETE(request: Request, { params }: Props) {
   } catch (error) {
     console.log(error);
 
-    return NextResponse.json({ message: error }, { status: 500 });
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
 
@@ -82,7 +82,7 @@ export async function PUT(request: Request, { params }: Props) {
   } catch (error) {
     console.log(error);
 
-    return NextResponse.json({ message: error }, { status: 500 });
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
 
