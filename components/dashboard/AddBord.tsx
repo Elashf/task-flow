@@ -6,14 +6,24 @@ import { Input } from '../ui/input'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { createBoardSchema } from '@/lib/validations/board'
 
 function AddBord() {
     const [title , setTitle]= useState("")
     const [description , setDescription]= useState("")
     const [open , setOpen] = useState(false)
     const [loading, setLoading] = useState(false);
+    
+
     const router = useRouter()
     const addBoard = async()=>{
+
+      const result = createBoardSchema.safeParse({title, description})
+      if(!result.success){
+        toast.error(result.error.issues[0].message)
+        return
+      }
+
       setLoading(true)
       try {
         const res = await fetch("/api/boards",{
@@ -21,16 +31,15 @@ function AddBord() {
             headers:{
                 "Content-Type":"application/json"
             },
-            body: JSON.stringify({title, description})
+            body: JSON.stringify(result.data)
         })
             const data = await res.json();
            if(!res.ok){
-                    toast.error(data.message || "failed to create board")
-
+                    toast.error(data.details?.[0]?.message || data.message || "failed to create board")
+               return
            }
             toast.success("Board created")
           setOpen(false)
-          setLoading(false)
           router.refresh()
       } catch {
         toast.error("Something went wrong, try again")

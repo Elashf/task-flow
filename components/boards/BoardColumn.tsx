@@ -15,7 +15,8 @@ type Props = {
     id:string;
     title:string;
     description:string | null;
-          priority:Priority
+          priority:Priority,
+          createdAt: Date
   }[]
   }
 };

@@ -1,19 +1,25 @@
 
 import { getCurrentUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { createBoardSchema } from "@/lib/validations/board"
 import { NextResponse } from "next/server"
 
 export async function POST(request:Request) {
 try {
-    const {title , description} =await request.json()
+    const body =await request.json()
+    const result= createBoardSchema.safeParse(body)
+
+    if(!result.success){
+        return NextResponse.json({error: "Validation failed",
+              details: result.error.issues},{status:400})
+    }
+    const {title , description} = result.data
     const user = await getCurrentUser()
     if(!user){
              return NextResponse.json({message:"Unauthorized!"},{status:401})
    
     }
-    if(!title.trim()){
-        return NextResponse.json({message:"Empty fields!"},{status:400})
-    }
+   
 const board =await prisma.board.create({
     data:{
         title , description , 

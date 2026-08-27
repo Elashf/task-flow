@@ -37,6 +37,7 @@ type Props={
         const data = await res.json();
       if(!res.ok){
         toast.error(data.message || "failed to create list")
+        return
       }
       toast.success("List created")
         setOpen(false)
