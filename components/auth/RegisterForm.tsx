@@ -31,9 +31,15 @@ export default function RegisterForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.message || "Invalid email or password");
-        return;
-      }
+        if(data.errors?.length >0){
+          data.errors.forEach((error:{message:string}) =>{
+            toast.error(error.message)
+          })
+        }else{
+           toast.error(data.message || "Something went wrong");
+        }
+      return
+    }
 
       toast.success("Login successfully :)");
 
@@ -86,8 +92,8 @@ export default function RegisterForm() {
             />
           </div>
 
-          <Button type="submit" className="w-full">
-            Register
+          <Button type="submit" className="w-full cursor-pointer">
+            {loading ? "Registering..." :"Register"}
           </Button>
 
           <p className="text-center text-sm text-muted-foreground">

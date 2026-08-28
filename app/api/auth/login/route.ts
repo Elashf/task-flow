@@ -1,14 +1,19 @@
 import { prisma } from "@/lib/prisma";
+import { createLoginSchema } from "@/lib/validations/login";
 import bcrypt from "bcryptjs";
 import  jwt  from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 export async function POST(request:Request) {
 try {
-    const {email , password} =await request.json()
-     if( !email || !password){
-    return NextResponse.json({message:"All fields are required"},{status:400})
+    const body =await request.json()
+    const result = createLoginSchema.safeParse(body)
+      if(!result.success){
+    return NextResponse.json({message:"validation error" ,
+        errors: result.error.issues
+    },{status:400})
    }
+   const {email , password} = result.data
     const existUser = await prisma.user.findUnique({
         where:{
             email
@@ -21,7 +26,7 @@ try {
     if(!verifyPassword){
          return NextResponse.json({message:"Email or password is invalid"},{status:401})
     }
-    const token = jwt.sign({email:existUser.email , userId:existUser.id ,name:existUser.name} , process.env.JWT_SECRET! ,{
+    const token = jwt.sign({ userId:existUser.id } , process.env.JWT_SECRET! ,{
         expiresIn:"7d"
     })
 

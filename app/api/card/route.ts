@@ -23,7 +23,7 @@ export async function POST(request: Request) {
       where: {
         id: listId,
         board: {
-          ownerId: user.userId,
+          ownerId: user.id,
         },
       },
     });

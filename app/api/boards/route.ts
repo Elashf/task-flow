@@ -25,7 +25,7 @@ const board =await prisma.board.create({
         title , description , 
         owner:{
             connect:{
-                id:user.userId
+                id:user.id
             }
         }
     }
@@ -55,7 +55,7 @@ try {
 
     const boards = await prisma.board.findMany({
         where:{
-            ownerId:user.userId
+            ownerId:user.id
         },
         orderBy:{
             createdAt:"desc"

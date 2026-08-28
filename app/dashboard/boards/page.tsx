@@ -10,13 +10,18 @@ async function page() {
   }
   const boards = await prisma.board.findMany({
     where:{
-      ownerId: user.userId
+      ownerId: user.id
     },
     orderBy:{
       createdAt:"desc"
     }
   })
-
+ if(boards.length <1){
+  return(
+  <div className='text-2xl p-4'>
+    No boards yet
+  </div>)
+ }
   return (
     <div className='grid grid-cols-1 gap-6 lg:grid-cols-3'>
      {boards.map((board) => (

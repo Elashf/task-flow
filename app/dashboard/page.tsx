@@ -19,7 +19,7 @@ export default async function DashboardPage({ searchParams }: Props) {
   }
   const boards = await prisma.board.findMany({
     where: {
-      ownerId: user.userId,
+      ownerId: user.id,
       ...(search 
         ?{
           OR:[
@@ -46,7 +46,7 @@ export default async function DashboardPage({ searchParams }: Props) {
   });
   const boardCount = await prisma.board.count({
     where: {
-      ownerId: user.userId,
+      ownerId: user.id,
     },
   });
 
@@ -54,7 +54,7 @@ export default async function DashboardPage({ searchParams }: Props) {
     where:{
       list:{
         board:{
-          ownerId: user.userId
+          ownerId: user.id
         },
         title: "Done"
       }
@@ -66,7 +66,7 @@ export default async function DashboardPage({ searchParams }: Props) {
     where:{
       list:{
         board:{
-          ownerId:user.userId
+          ownerId:user.id
         },
         title:"Doing"
       }

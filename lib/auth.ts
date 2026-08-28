@@ -1,10 +1,9 @@
 import Jwt from "jsonwebtoken"
 import { cookies } from "next/headers";
+import { prisma } from "./prisma";
 export type JwtPayload={
     userId: string
-    name : string
-    email:string
-    
+   
 }
 export function verifyToken(token: string): JwtPayload | null {
   try {
@@ -25,5 +24,20 @@ export async function getCurrentUser(){
   if(!token){
     return null
   }
-  return verifyToken(token)
+  const payload = verifyToken(token)
+   if (!payload) {
+    return null;
+  }
+  const user = await prisma.user.findUnique({
+    where:{
+      id:payload.userId
+    }
+    ,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
+  })
+   return user;
 }

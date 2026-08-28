@@ -14,7 +14,7 @@ async function HeaderAvatar() {
   return (
     <Avatar className="size-9">
       <AvatarImage src="" alt="User avatar" />
-      <AvatarFallback>{user?.name}</AvatarFallback>
+      <AvatarFallback>{user?.name.slice(0,1)}</AvatarFallback>
       
     </Avatar>
   );

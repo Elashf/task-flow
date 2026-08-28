@@ -8,7 +8,7 @@ try {
     const body= await request.json()
     const result = createListSchema.safeParse(body)
     if(!result.success){
-      return NextResponse.json({error:"validation failed",
+      return NextResponse.json({error:"validation error",
         details: result.error.issues
       },{status:400})
     }
@@ -21,7 +21,7 @@ try {
     const board = await prisma.board.findFirst({
         where:{
 id:boardId,
-ownerId:user.userId
+ownerId:user.id
         }
     })
 if (!board) {

@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { boardIdSchema, updateBoardSchema } from "@/lib/validations/board"
 import { NextResponse } from "next/server"
 
 export async function DELETE(request:Request ,{params}:{params :Promise <{boardId:string}>}) {
@@ -8,12 +9,18 @@ try {
     if(!user){
         return NextResponse.json({message:"Unauthorized"},{status:401})
     }
-    const {boardId} = await params
-
+    const body = await params
+    const result = boardIdSchema.safeParse(body)
+    if(!result.success){
+             return NextResponse.json({message:"validation error" ,
+                errors: result.error.issues
+             },{status:400})
+        }
+        const {boardId} = result.data
     const board=await prisma.board.findFirst({
         where:{
             id:boardId ,
-            ownerId: user.userId
+            ownerId: user.id
         }
     })
     if(!board){
@@ -42,13 +49,27 @@ try {
     if(!user){
         return NextResponse.json({message:"Unauthorized"},{status:401})
     }
-        const {boardId} =await params
+        const paramsData =await params
         const body = await request.json()
-        
+        const boardIdResult = boardIdSchema.safeParse(paramsData)
+        if(!boardIdResult.success){
+             return NextResponse.json({message:"validation error" ,
+                errors: boardIdResult.error.issues
+             },{status:400})
+        }
+        const {boardId} = boardIdResult.data
+        const result = updateBoardSchema.safeParse(body)
+
+        if(!result.success){
+             return NextResponse.json({message:"validation error" ,
+                errors: result.error.issues
+             },{status:400})
+        }
+        const {title} = result.data
         const board = await prisma.board.findFirst({
             where:{
                 id:boardId,
-                ownerId:user.userId
+                ownerId:user.id
             }
         })
          if(!board){
@@ -60,7 +81,7 @@ try {
             id:boardId
         },
             data :{
-                title: body.title
+                title
             }
         
     })

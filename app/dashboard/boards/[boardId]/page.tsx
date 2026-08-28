@@ -21,7 +21,7 @@ export default async function BoardPage({params , searchParams}:Props) {
   const board = await prisma.board.findFirst({
     where:{
      id:boardId ,
-      ownerId: user?.userId
+      ownerId: user?.id
     },
     include:{
       lists:{

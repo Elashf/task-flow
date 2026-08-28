@@ -18,7 +18,7 @@ export default async function TasksPage({searchParams}:Props) {
     where:{
     list:{
       board:{
-        ownerId:user.userId
+        ownerId:user.id
       }
     },
     ...(search

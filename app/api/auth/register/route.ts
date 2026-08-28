@@ -1,15 +1,20 @@
 import { prisma } from "@/lib/prisma";
+import { createRegisterSchema } from "@/lib/validations/register";
 import bcrypt from "bcryptjs";
 import jwt  from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
 export async function POST(request:Request) {
 try {
-   const {name , email ,password} =await request.json()  
+   const body =await request.json()  
+   const result = createRegisterSchema.safeParse(body)
 
-   if(!name || !email || !password){
-    return NextResponse.json({message:"All fields are required"},{status:400})
+   if(!result.success){
+    return NextResponse.json({message:"validation error" ,
+        errors: result.error.issues
+    },{status:400})
    }
+const {name , email , password}= result.data
 const existUser = await prisma.user.findUnique({
     where:{
         email
@@ -29,14 +34,13 @@ const hashPassword =await bcrypt.hash(password, 10)
 })
    const token = jwt.sign({
     userId: newUser.id,
-    name:newUser.name,
-    email:newUser.email
+   
     }, process.env.JWT_SECRET! ,{
     expiresIn:"7d"
    })
 
    const response = NextResponse.json(
-  { message: "Registered in successfully" },
+  { message: "Registered successfully" },
   { status: 201 }
 );
 
