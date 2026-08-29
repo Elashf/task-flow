@@ -1,3 +1,4 @@
+import { badRequest, notFound, serverError, unauthorized } from "@/lib/api-response"
 import { getCurrentUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { createListSchema } from "@/lib/validations/list"
@@ -8,14 +9,14 @@ try {
     const body= await request.json()
     const result = createListSchema.safeParse(body)
     if(!result.success){
-      return NextResponse.json({error:"validation error",
-        details: result.error.issues
-      },{status:400})
+      return badRequest("Validation error",
+        result.error.issues
+      )
     }
     const {title ,boardId} = result.data
     const user = await getCurrentUser()
     if(!user){
-        return NextResponse.json({message:"Unauthorized"},{status:401})
+        return unauthorized()
     }
 
     const board = await prisma.board.findFirst({
@@ -25,10 +26,7 @@ ownerId:user.id
         }
     })
 if (!board) {
-  return NextResponse.json(
-    { message: "Board not found" },
-    { status: 404 }
-  )
+  return notFound("Board not found")
 }
 
 const list = await prisma.list.create({
@@ -47,7 +45,7 @@ const list = await prisma.list.create({
 } catch (error) {
     console.log(error);
     
-            return NextResponse.json({message:"Server error"},{status:500})
+            return serverError()
 
 }    
 }

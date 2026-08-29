@@ -1,3 +1,4 @@
+import { badRequest, conflict, serverError } from "@/lib/api-response";
 import { prisma } from "@/lib/prisma";
 import { createRegisterSchema } from "@/lib/validations/register";
 import bcrypt from "bcryptjs";
@@ -10,9 +11,10 @@ try {
    const result = createRegisterSchema.safeParse(body)
 
    if(!result.success){
-    return NextResponse.json({message:"validation error" ,
-        errors: result.error.issues
-    },{status:400})
+    return badRequest(
+        "Validation error",
+        result.error.issues
+    )
    }
 const {name , email , password}= result.data
 const existUser = await prisma.user.findUnique({
@@ -21,7 +23,7 @@ const existUser = await prisma.user.findUnique({
     }
 })
 if(existUser){
-    return NextResponse.json({message:"Email already exists"},{status:400})
+    return conflict("Email already exists")
 }
 const hashPassword =await bcrypt.hash(password, 10)
  const newUser = await prisma.user.create({
@@ -57,7 +59,7 @@ return response;
 } catch (error) {
     console.log(error);
     
-     return NextResponse.json({message:"Server error"},{status:500})
+     return serverError()
 }
 
 }

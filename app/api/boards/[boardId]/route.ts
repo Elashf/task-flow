@@ -1,3 +1,4 @@
+import { badRequest, notFound, serverError, unauthorized } from "@/lib/api-response"
 import { getCurrentUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { boardIdSchema, updateBoardSchema } from "@/lib/validations/board"
@@ -7,14 +8,14 @@ export async function DELETE(request:Request ,{params}:{params :Promise <{boardI
 try {
     const user = await getCurrentUser()
     if(!user){
-        return NextResponse.json({message:"Unauthorized"},{status:401})
+           return unauthorized()
     }
     const body = await params
     const result = boardIdSchema.safeParse(body)
     if(!result.success){
-             return NextResponse.json({message:"validation error" ,
-                errors: result.error.issues
-             },{status:400})
+             return badRequest("Validation error" ,
+                result.error.issues
+             )
         }
         const {boardId} = result.data
     const board=await prisma.board.findFirst({
@@ -24,7 +25,7 @@ try {
         }
     })
     if(!board){
-         return NextResponse.json({message:"Board not found"},{status:404})
+         return notFound("Board not found")
     }
 
     await prisma.board.delete({
@@ -37,7 +38,7 @@ try {
 } catch (error) {
     console.log(error);
     
-     return NextResponse.json({message:"Server error"},{status:500})
+     return serverError()
 }
     
 }
@@ -47,23 +48,23 @@ export async function PUT(request:Request , {params}:{params : Promise<{boardId:
 try {
      const user = await getCurrentUser()
     if(!user){
-        return NextResponse.json({message:"Unauthorized"},{status:401})
+          return unauthorized()
     }
         const paramsData =await params
         const body = await request.json()
         const boardIdResult = boardIdSchema.safeParse(paramsData)
         if(!boardIdResult.success){
-             return NextResponse.json({message:"validation error" ,
-                errors: boardIdResult.error.issues
-             },{status:400})
+             return badRequest("Validation error" ,
+                boardIdResult.error.issues
+             )
         }
         const {boardId} = boardIdResult.data
         const result = updateBoardSchema.safeParse(body)
 
         if(!result.success){
-             return NextResponse.json({message:"validation error" ,
-                errors: result.error.issues
-             },{status:400})
+             return badRequest("Validation error" ,
+                result.error.issues
+             )
         }
         const {title} = result.data
         const board = await prisma.board.findFirst({
@@ -73,7 +74,7 @@ try {
             }
         })
          if(!board){
-         return NextResponse.json({message:"Board not found"},{status:404})
+         return notFound("Board not found")
     }
 
     await prisma.board.update({
@@ -90,7 +91,7 @@ try {
 } catch (error) {
      console.log(error);
     
-     return NextResponse.json({message:"Server error"},{status:500})
+     return serverError()
 }
     
     

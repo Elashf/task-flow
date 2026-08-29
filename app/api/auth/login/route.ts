@@ -1,3 +1,4 @@
+import { badRequest, serverError, unauthorized } from "@/lib/api-response";
 import { prisma } from "@/lib/prisma";
 import { createLoginSchema } from "@/lib/validations/login";
 import bcrypt from "bcryptjs";
@@ -9,9 +10,9 @@ try {
     const body =await request.json()
     const result = createLoginSchema.safeParse(body)
       if(!result.success){
-    return NextResponse.json({message:"validation error" ,
-        errors: result.error.issues
-    },{status:400})
+    return badRequest("Validation error" , 
+        result.error.issues
+    )
    }
    const {email , password} = result.data
     const existUser = await prisma.user.findUnique({
@@ -20,11 +21,12 @@ try {
         }
     })
     if(!existUser){
-         return NextResponse.json({message:"User not found"},{status:401})
+         return unauthorized("Email or password is invalid")
     }
     const verifyPassword =await bcrypt.compare(password , existUser.password)
     if(!verifyPassword){
-         return NextResponse.json({message:"Email or password is invalid"},{status:401})
+                return unauthorized("Email or password is invalid")
+
     }
     const token = jwt.sign({ userId:existUser.id } , process.env.JWT_SECRET! ,{
         expiresIn:"7d"
@@ -43,6 +45,6 @@ return response;
 } catch (error) {
      console.log(error);
     
-     return NextResponse.json({message:"Server error"},{status:500})
+     return serverError()
 }    
 }

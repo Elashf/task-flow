@@ -1,3 +1,4 @@
+import { badRequest, notFound, serverError, unauthorized } from "@/lib/api-response";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createCardSchema } from "@/lib/validations/card";
@@ -9,14 +10,14 @@ export async function POST(request: Request) {
 
   const result = createCardSchema.safeParse(body)
   if(!result.success){
-    return NextResponse.json({error:"validation error",
-      details: result.error.issues
-    },{status:400})
+    return badRequest("Validation error" , 
+      result.error.issues
+    )
   }
   const {title, description , priority, listId} = result.data 
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return unauthorized()
     }
 
     const list = await prisma.list.findFirst({
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
       },
     });
     if (!list) {
-      return NextResponse.json({ message: "List not found" }, { status: 404 });
+      return notFound("List is not exists")
     }
 
     const card = await prisma.card.create({
@@ -49,6 +50,6 @@ export async function POST(request: Request) {
   } catch (error) {
     console.log(error);
 
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return serverError()
   }
 }
