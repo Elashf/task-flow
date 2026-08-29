@@ -25,6 +25,7 @@ function ButtonDetailCard({ id, title, description, priority }: Props) {
   const [editPriority,setEditPriority ] = useState(priority);
     const [loading, setLoading] = useState(false);
   const [ open , setOpen]= useState(false)
+  const [ openDelete , setOpenDelete]= useState(false)
   const handleDelete = async () => {
     setLoading(true)
     const res = await fetch(`/api/card/${id}`, {
@@ -89,16 +90,40 @@ function ButtonDetailCard({ id, title, description, priority }: Props) {
             <SelectItem value="high">high</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={handleEdit}>
+          <Button className="cursor-pointer" onClick={handleEdit}>
             {loading ? "Editing... " : "Edit card"}
           </Button>
         </DialogContent>
       </Dialog>
+      <Dialog open={openDelete} onOpenChange={setOpenDelete}>
+<DialogContent>
+  <DialogTitle>Delete Card?</DialogTitle>
+ <p className="text-sm text-muted-foreground">
+      Are you sure you want to delete this board?
+    </p>
+        <div className="flex justify-end gap-2">
+      <Button
+      className="cursor-pointer"
+        variant="outline"
+        onClick={() => setOpenDelete(false)}
+        disabled={loading}
+      >
+        Cancel
+      </Button>
 
+      <Button
+      className="cursor-pointer"
+        variant="destructive"
+        onClick={handleDelete}
+        disabled={loading}
+      >{loading ? "Deleting..." : "Delete"}</Button>
+      </div>
+</DialogContent>
+      </Dialog>
       <Button
       disabled={loading}
         className="cursor-pointer"
-        onClick={handleDelete}
+        onClick={()=>setOpenDelete(true)}
         variant="destructive"
       >
         Delete

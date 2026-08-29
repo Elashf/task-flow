@@ -67,7 +67,7 @@ async function BoardCard({id, title, description, priority , createdAt }: BoardC
   </div>
 
   <Avatar className="size-7">
-    <AvatarFallback>{user?.name}</AvatarFallback>
+    <AvatarFallback>{user?.name.slice(0,1)}</AvatarFallback>
   </Avatar>
   
 </div>

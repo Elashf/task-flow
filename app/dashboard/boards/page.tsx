@@ -1,6 +1,7 @@
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import BoardItem from './BoardItem'
+import AddBord from '@/components/dashboard/AddBord'
 
 async function page() {
 
@@ -8,6 +9,7 @@ async function page() {
   if(!user){
     return <div>Unauthorized</div>
   }
+  
   const boards = await prisma.board.findMany({
     where:{
       ownerId: user.id
@@ -17,9 +19,12 @@ async function page() {
     }
   })
  if(boards.length <1){
-  return(
-  <div className='text-2xl p-4'>
-    No boards yet
+  return(<div className='flex flex-col gap-10 items-center'>
+     <div className='text-2xl p-4'>
+    No Boards yet
+    </div>
+    <AddBord/>
+  
   </div>)
  }
   return (

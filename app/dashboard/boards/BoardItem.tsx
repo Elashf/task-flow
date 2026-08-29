@@ -28,7 +28,7 @@ function BoardItem({ id, title, description }: Props) {
 const [openEdit, setOpenEdit] = useState(false);
 const [editTitle, setEditTitle] = useState(title);
 const [loading, setLoading] = useState(false);
-
+const [openDelete, setOpenDelete] = useState(false);
     const handleDelete =async()=>{
         setLoading(true)
       const res = await fetch(`/api/boards/${id}`,{
@@ -99,9 +99,9 @@ const [loading, setLoading] = useState(false);
               </DropdownMenuItem>
 
               <DropdownMenuItem variant="destructive"
-               onClick={handleDelete}>
+               onClick={()=>setOpenDelete(true)}>
                 <Trash2 className="mr-2 size-4 " />
-                {loading ? "Deleting..." : "Delete"}
+                Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -117,6 +117,32 @@ const [loading, setLoading] = useState(false);
                 <Button className="cursor-pointer" onClick={handleEdit}>{loading ? "Editing..." : "Edit"}</Button>
             </DialogContent>
             
+          </Dialog>
+          <Dialog open={openDelete} onOpenChange={setOpenDelete}>
+            <DialogContent>
+            <DialogTitle>Delete Board?</DialogTitle>
+             <p className="text-sm text-muted-foreground">
+      Are you sure you want to delete this board?
+      
+    </p>
+ <div className="flex justify-end gap-2">
+      <Button
+        variant="outline"
+        onClick={() => setOpenDelete(false)}
+        disabled={loading}
+      >
+        Cancel
+      </Button>
+
+      <Button
+        variant="destructive"
+        onClick={handleDelete}
+        disabled={loading}
+      >
+        {loading ? "Deleting..." : "Delete"}
+      </Button>
+    </div>
+  </DialogContent>
           </Dialog>
           </>
   );
