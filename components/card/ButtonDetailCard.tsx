@@ -21,7 +21,7 @@ type Props = {
 function ButtonDetailCard({ id, title, description, priority }: Props) {
   const router = useRouter();
   const [editTitle, setEditTitle] = useState(title);
-  const [editDescription, setEditDescription] = useState(description);
+  const [editDescription, setEditDescription] = useState(description ?? "");
   const [editPriority,setEditPriority ] = useState(priority);
     const [loading, setLoading] = useState(false);
   const [ open , setOpen]= useState(false)
@@ -80,7 +80,11 @@ function ButtonDetailCard({ id, title, description, priority }: Props) {
             value={editDescription}
             onChange={(e) => setEditDescription(e.target.value)}
           />
-          <Select value={editPriority} onValueChange={setEditPriority}>
+          <Select value={editPriority} onValueChange={(value)=>{
+            if(value){
+              setEditPriority(value)
+            }
+          }}>
             <SelectTrigger>
               <SelectValue placeholder="select priority" />
             </SelectTrigger>
@@ -99,7 +103,7 @@ function ButtonDetailCard({ id, title, description, priority }: Props) {
 <DialogContent>
   <DialogTitle>Delete Card?</DialogTitle>
  <p className="text-sm text-muted-foreground">
-      Are you sure you want to delete this board?
+      Are you sure you want to delete this card?
     </p>
         <div className="flex justify-end gap-2">
       <Button

@@ -102,7 +102,11 @@ function AddCard({ listId }: Props) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <Select value={priority} onValueChange={setPriority}>
+          <Select value={priority} onValueChange={(value)=>{
+            if(value){
+              setPriority(value)
+            }
+          }}>
             <SelectTrigger>
                 <SelectValue placeholder="Select priority"/>
             </SelectTrigger>
